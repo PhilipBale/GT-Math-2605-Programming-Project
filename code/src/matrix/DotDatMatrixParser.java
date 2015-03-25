@@ -1,0 +1,59 @@
+package matrix;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+
+/**
+ * Created by Philip on 3/25/15.
+ */
+public class DotDatMatrixParser {
+
+    public static Matrix parseMatrix(String path) {
+        FileReader file = null;
+        try {
+            file = new FileReader(new File(path));
+
+            BufferedReader br = new BufferedReader(file);
+            String line = br.readLine();
+            int rowLength = 0;
+            ArrayList<Double[]> rows = new ArrayList<Double[]>();
+            if (line != null) {
+                String[] entries = line.trim().split(" ");
+                rowLength = entries.length;
+
+                while (line != null && line.length() > 0) {
+                    entries = line.trim().split(" ");
+                    Double[] row = new Double[rowLength];
+                    for (int i = 0; i < rowLength; i++) {
+                        row[i] = Double.parseDouble(entries[i]);
+                    }
+
+                    rows.add(row);
+
+                    line = br.readLine();
+                }
+            }
+
+            double[][] result = new double[rows.size()][rowLength];
+            for (int i = 0; i < rows.size(); i++) {
+                for (int j = 0; j < rowLength; j++) {
+                    result[i][j] = rows.get(i)[j];
+                }
+            }
+
+            Matrix m = new Matrix(result);
+            m.printMatrix();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static void main(String[] args) {
+        parseMatrix("a.dat");
+    }
+}
