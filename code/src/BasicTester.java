@@ -14,6 +14,7 @@ public class BasicTester {
     @BeforeClass
     public static void setUp() {
         baseMatrix = DotDatMatrixParser.parseMatrix("a.dat");
+        baseMatrix.printMatrix();
         System.out.println("Starting jUnits");
     }
 
