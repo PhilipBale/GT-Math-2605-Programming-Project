@@ -1,5 +1,6 @@
 package matrix;
 
+
 /**
  * Created by Philip on 3/25/15.
  */
@@ -22,6 +23,72 @@ public class Matrix {
 
     public Matrix(Matrix toCopy) {
         this(toCopy.data);
+    }
+
+    public static Matrix identity(int n) {
+        Matrix I = new Matrix(n, n);
+        for (int i = 0; i < n; i++) {
+            I.data[i][i] = 1;
+        }
+
+        return I;
+    }
+
+    public Matrix plus(Matrix toAdd) {
+        if ((m != toAdd.m)|| (n != toAdd.n)) {
+            throw new IllegalArgumentException("Matrix sizes don't match");
+        }
+
+        Matrix result = new Matrix(m, n);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                result.data[i][j] = data[i][j] + toAdd.data[i][j];
+            }
+        }
+
+        return result;
+    }
+
+    public Matrix subtract(Matrix toSubtract) {
+        if ((m != toSubtract.m)|| (n != toSubtract.n)) {
+            throw new IllegalArgumentException("Matrix sizes don't match");
+        }
+
+        Matrix result = new Matrix(m, n);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                result.data[i][j] = data[i][j] - toSubtract.data[i][j];
+            }
+        }
+
+        return result;
+    }
+
+    public Matrix transpose() {
+        Matrix result = new Matrix(n, m);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                result.data[j][i] = data[i][j];
+            }
+        }
+
+        return result;
+    }
+
+    public boolean isEqualTo(Matrix toCompare) {
+        if ((m != toCompare.m)|| (n != toCompare.n)) {
+            throw new IllegalArgumentException("Matrix sizes don't match");
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (data[i][j] != toCompare.data[i][j]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public void printMatrix() {

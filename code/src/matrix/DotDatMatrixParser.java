@@ -44,8 +44,8 @@ public class DotDatMatrixParser {
                 }
             }
 
-            Matrix m = new Matrix(result);
-            m.printMatrix();
+            return new Matrix(result);
+            //m.printMatrix();
         } catch (Exception e) {
             e.printStackTrace();
         }
