@@ -1,6 +1,8 @@
 package matrix;
 
 
+import java.text.DecimalFormat;
+
 /**
  * Created by Philip on 3/25/15.
  */
@@ -26,7 +28,7 @@ public class Matrix {
     }
 
     public Matrix(Matrix toCopy) {
-        this(toCopy.data);
+        this(toCopy.data.clone());
     }
 
     public int getM() {
@@ -115,20 +117,47 @@ public class Matrix {
         return true;
     }
 
+    public Matrix modifyRow(int srcRow, int destRow, double modifier) {
+        Matrix result = new Matrix(this);
+
+        for (int i = 0; i < n; i++) {
+            double mod = result.data[srcRow][i] * modifier;
+            result.data[destRow][i] += mod;
+
+            if (result.data[destRow][i] < 0.00000000001) {
+                result.data[destRow][i] = 0;
+            }
+        }
+
+        return result;
+    }
+
     public void printMatrix() {
-        String line = "{ ";
+        String line = "{{ ";
+        DecimalFormat df = new DecimalFormat("#.#########");
+        String formatted;
 
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (j > 0) {
+
                     line += ", ";
                 }
-                line += data[i][j];
+                formatted = df.format(data[i][j]);
+                if (formatted.equals("-0")) {
+                    formatted = "0";
+                }
+
+                line += formatted;
+            }
+            if (i > 0) {
+                System.out.println(",");
             }
 
-            System.out.println(line + " }");
-            line = ",{ ";
+            System.out.print(line + " }");
+            line = "{ ";
         }
+        System.out.print("}\n\n");
     }
 
 }

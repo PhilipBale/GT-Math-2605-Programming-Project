@@ -1,6 +1,4 @@
-import matrix.DotDatMatrixParser;
-import matrix.Matrix;
-import matrix.MatrixGenerator;
+import matrix.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,7 +21,6 @@ public class BasicTester {
         aTransMatrix = DotDatMatrixParser.parseMatrix("a_transpose.dat");
         bTransMatrix = DotDatMatrixParser.parseMatrix("b_transpose.dat");
         hMatrix = DotDatMatrixParser.parseMatrix("h.dat");
-        System.out.println("Starting jUnits");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -33,18 +30,27 @@ public class BasicTester {
 
     @Test
     public void matrixEquals() {
-        assert(aMatrix.isEqualTo(aTransMatrix));
+        assert (aMatrix.isEqualTo(aTransMatrix));
     }
 
     @Test
     public void matrixTranspose() {
         Matrix trans = bMatrix.transpose();
-        assert(trans.isEqualTo(bTransMatrix));
+        assert (trans.isEqualTo(bTransMatrix));
     }
 
     @Test
     public void hilbertMatrix() {
         Matrix hilb = MatrixGenerator.HilbertsMatrix(4);
-        assert(hMatrix.isEqualTo(hilb));
+        assert (hMatrix.isEqualTo(hilb));
+    }
+
+    @Test
+    public void hilbertLU() {
+        hMatrix.printMatrix();
+        TwoMatrixResult result = LUDecomposition.getLUDecomposition(hMatrix);
+        result.printResult();
+
+        assert(true);
     }
 }
