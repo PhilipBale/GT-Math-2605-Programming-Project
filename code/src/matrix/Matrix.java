@@ -15,6 +15,10 @@ public class Matrix {
         data = new double[m][n];
     }
 
+    public Matrix(int n) {
+        this(n,n);
+    }
+
     public Matrix(double[][] data) {
         m = data.length;
         n = data[0].length;
@@ -23,6 +27,18 @@ public class Matrix {
 
     public Matrix(Matrix toCopy) {
         this(toCopy.data);
+    }
+
+    public void setData(double[][] data) {
+        this.data = data;
+    }
+
+    public void setData(int m, int n, double val) {
+        this.data[m][n] = val;
+    }
+
+    public double getData(int m, int n) {
+        return data[m][n];
     }
 
     public static Matrix identity(int n) {

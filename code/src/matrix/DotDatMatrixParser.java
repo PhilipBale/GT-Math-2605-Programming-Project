@@ -28,7 +28,13 @@ public class DotDatMatrixParser {
                     entries = line.trim().split(" ");
                     Double[] row = new Double[rowLength];
                     for (int i = 0; i < rowLength; i++) {
-                        row[i] = Double.parseDouble(entries[i]);
+                        if (entries[i].contains("/")) {
+                            int a = Integer.parseInt(entries[i].substring(0, entries[i].indexOf("/")));
+                            int b = Integer.parseInt(entries[i].substring(entries[i].indexOf("/") + 1, entries[i].length()));
+                            row[i] = (double) a / b;
+                        } else {
+                            row[i] = Double.parseDouble(entries[i]);
+                        }
                     }
 
                     rows.add(row);

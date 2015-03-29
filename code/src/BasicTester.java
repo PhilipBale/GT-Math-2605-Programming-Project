@@ -1,5 +1,6 @@
 import matrix.DotDatMatrixParser;
 import matrix.Matrix;
+import matrix.MatrixGenerator;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -9,30 +10,41 @@ import org.junit.Test;
  */
 public class BasicTester {
 
-    private static Matrix baseMatrix;
+    private static Matrix aMatrix;
+    private static Matrix aTransMatrix;
+    private static Matrix bMatrix;
+    private static Matrix bTransMatrix;
+    private static Matrix hMatrix; //Hilbert
 
     @BeforeClass
     public static void setUp() {
-        baseMatrix = DotDatMatrixParser.parseMatrix("a.dat");
-        baseMatrix.printMatrix();
+        aMatrix = DotDatMatrixParser.parseMatrix("a.dat");
+        bMatrix = DotDatMatrixParser.parseMatrix("b.dat");
+        aTransMatrix = DotDatMatrixParser.parseMatrix("a_transpose.dat");
+        bTransMatrix = DotDatMatrixParser.parseMatrix("b_transpose.dat");
+        hMatrix = DotDatMatrixParser.parseMatrix("h.dat");
         System.out.println("Starting jUnits");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void wrongSizeMatrix() {
-        Matrix b = new Matrix(1,1);
-        baseMatrix.isEqualTo(b);
+        aMatrix.isEqualTo(bMatrix);
     }
 
     @Test
     public void matrixEquals() {
-        Matrix b = DotDatMatrixParser.parseMatrix("a.dat");
-        assert(baseMatrix.isEqualTo(b));
+        assert(aMatrix.isEqualTo(aTransMatrix));
     }
 
     @Test
     public void matrixTranspose() {
-        Matrix b = DotDatMatrixParser.parseMatrix("a_transpose.dat");
-        assert(baseMatrix.transpose().isEqualTo(b));
+        Matrix trans = bMatrix.transpose();
+        assert(trans.isEqualTo(bTransMatrix));
+    }
+
+    @Test
+    public void hilbertMatrix() {
+        Matrix hilb = MatrixGenerator.HilbertsMatrix(4);
+        assert(hMatrix.isEqualTo(hilb));
     }
 }
