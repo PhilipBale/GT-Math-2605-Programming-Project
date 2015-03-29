@@ -15,6 +15,10 @@ public class TwoMatrixResult {
         LU, QR;
     }
 
+    public TwoMatrixResult() {
+        this(null, null, 0, null);
+    }
+
     public TwoMatrixResult(Matrix first, Matrix second, double error, Type type) {
         this.first = first;
         this.second = second;
@@ -39,6 +43,38 @@ public class TwoMatrixResult {
             default:
                 return "None";
         }
+    }
+
+    public Type getType() {
+        return resultType;
+    }
+
+    public void setType(Type type) {
+        this.resultType = type;
+    }
+
+    public Matrix getFirstMatrix() {
+        return first;
+    }
+
+    public void setFirstMatrix(Matrix input) {
+        this.first = input;
+    }
+
+    public Matrix getSecondMatrix() {
+        return second;
+    }
+
+    public void setSecondMatrix(Matrix input) {
+        this.second = input;
+    }
+
+    public double getError() {
+        return error;
+    }
+
+    public void setError(double error) {
+        this.error = error;
     }
 
 }

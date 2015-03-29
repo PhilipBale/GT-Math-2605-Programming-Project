@@ -29,6 +29,14 @@ public class Matrix {
         this(toCopy.data);
     }
 
+    public int getM() {
+        return m;
+    }
+
+    public int getN() {
+        return n;
+    }
+
     public void setData(double[][] data) {
         this.data = data;
     }
