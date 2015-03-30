@@ -11,7 +11,7 @@ public class LUDecomposition {
     public static TwoMatrixResult getLUDecomposition(Matrix input) {
         TwoMatrixResult result = new TwoMatrixResult();
         result.setType(TwoMatrixResult.Type.LU);
-        Matrix u = new Matrix(input);
+        Matrix u = new Matrix(input.getData().clone());
         Matrix l = Matrix.identity(u.getN());
 
 
@@ -30,6 +30,9 @@ public class LUDecomposition {
 
         result.setFirstMatrix(l);
         result.setSecondMatrix(u);
+
+        double err = l.error(u, input);
+        result.setError(err);
 
         return result;
     }

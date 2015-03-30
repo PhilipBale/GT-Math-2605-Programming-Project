@@ -51,6 +51,10 @@ public class Matrix {
         return data[m][n];
     }
 
+    public double[][] getData() {
+        return data;
+    }
+
     public static Matrix identity(int n) {
         Matrix I = new Matrix(n, n);
         for (int i = 0; i < n; i++) {
@@ -89,6 +93,42 @@ public class Matrix {
 
         return result;
     }
+
+    public Matrix multiply(Matrix toMultiply) {
+        if ((m != toMultiply.m)|| (n != toMultiply.n)) {
+            throw new IllegalArgumentException("Matrix sizes don't match");
+        }
+
+        Matrix result = new Matrix(m, n);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                result.data[i][j] *= toMultiply.data[i][j];
+            }
+        }
+
+        return result;
+    }
+
+
+    public double error(Matrix comparable, Matrix target) {
+        Matrix multi = this.multiply(comparable);
+        multi = multi.subtract(target);
+
+        return norm1(multi);
+    }
+
+    public double norm1 (Matrix a) {
+        double f = 0;
+        for (int j = 0; j < n; j++) {
+            double s = 0;
+            for (int i = 0; i < m; i++) {
+                s += Math.abs(a.data[i][j]) * Math.abs(a.data[i][j]);
+            }
+            f = Math.pow(f,.5);
+        }
+        return f;
+    }
+
 
     public Matrix transpose() {
         Matrix result = new Matrix(n, m);
