@@ -17,6 +17,16 @@ public class CustomMath {
         return result;
     }
 
+    public static double[] normalizedVec(double[] input) {
+        double[] result = new double[input.length];
+        double norm = normalize(input);
+        for (int i = 0; i <  input.length; i++) {
+            result[i] = input[i] / norm;
+        }
+
+        return result;
+    }
+
     public static double[] subtractArrays(double[] first, double[] second) {
         double[] result = new double[first.length];
         for (int i = 0; i < first.length; i++) {
@@ -30,6 +40,16 @@ public class CustomMath {
         double[] result = new double[first.length];
         for (int i = 0; i < first.length; i++) {
             result[i] = first[i] + second[i];
+        }
+
+        return result;
+    }
+
+    public static double[] scaleArray(double[] input, double scalar) {
+        double[] result = new double[input.length];
+
+        for (int i = 0; i < input.length; i++) {
+            result[i] = input[i] * scalar;
         }
 
         return result;

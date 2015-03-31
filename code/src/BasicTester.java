@@ -13,6 +13,7 @@ public class BasicTester {
     private static Matrix bMatrix;
     private static Matrix bTransMatrix;
     private static Matrix hMatrix; //Hilbert
+    private static Matrix lMatrix; //leslie
 
     @BeforeClass
     public static void setUp() {
@@ -21,6 +22,8 @@ public class BasicTester {
         aTransMatrix = DotDatMatrixParser.parseMatrix("a_transpose.dat");
         bTransMatrix = DotDatMatrixParser.parseMatrix("b_transpose.dat");
         hMatrix = DotDatMatrixParser.parseMatrix("h.dat");
+        lMatrix = DotDatMatrixParser.parseMatrix("l.dat");
+
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -88,6 +91,15 @@ public class BasicTester {
         int[] tester = new int[] {1, 0, 1, 1, 0};
         String result = new ConvolutionalCode(tester).getOutputStream();
         System.out.println("hey");
+        assert(true);
+    }
+
+    @Test
+    public void testPowerMethod() {
+        double[] sampleApprox = {2.1, 1.9, 1.8, 2.1, 2.0, 1.7, 1.2, 0.9, 0.5};
+        sampleApprox = CustomMath.scaleArray(sampleApprox, Math.pow(10, 5));
+        double acc = 0.00000001;
+        Matrix result = PowerMethod.runPowerMethod(lMatrix, acc, sampleApprox);
         assert(true);
     }
 }

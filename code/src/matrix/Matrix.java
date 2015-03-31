@@ -27,6 +27,18 @@ public class Matrix {
         this.data = data;
     }
 
+    public Matrix(double[] data, boolean isMBased) {
+        this(CustomMath.makeArray2d(data.clone()));
+
+        if (!isMBased) {
+            Matrix newM = this.transpose();
+            this.data = newM.data;
+            this.m = newM.n;
+            this.n = newM.m;
+        }
+
+    }
+
     public Matrix(Matrix toCopy) {
         this.m = toCopy.getM();
         this.n = toCopy.getN();
@@ -105,21 +117,44 @@ public class Matrix {
     }
 
     public Matrix multiply(Matrix toMultiply) {
-        if (m != toMultiply.getN()) {
+        if (n != toMultiply.getM()) {
             throw new IllegalArgumentException("Matrix multiplication is impossible");
+        }
+
+        if (n == 9 || m == 9) {
+            System.out.println("Hey");
         }
 
         double[][] c = new double[m][toMultiply.getN()];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < toMultiply.getN(); j++) {
                 for (int k = 0; k < n; k++) {
-                    c[i][j] = c[i][j] + data[i][k] * toMultiply.data[k][j];
+                    c[i][j] += + data[i][k] * toMultiply.data[k][j];
                 }
             }
         }
 
-
         return new Matrix(c);
+    }
+
+    public Matrix multiplyVect(Matrix input) {
+        return multiplyVect(input.transpose().data[0]);
+    }
+
+    public Matrix multiplyVect(double[] vec) {
+        if (n != vec.length) {
+            throw new IllegalArgumentException("Matrix multiplication is impossible");
+        }
+        double[] result = new double[vec.length];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                result[i] += data[j][i] * vec[j];
+            }
+        }
+
+        Matrix resultMatrix = new Matrix(result, true);
+
+        return resultMatrix;
     }
 
     public Matrix scale(double scalar) {
