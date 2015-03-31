@@ -41,15 +41,17 @@ public class ConvolutionalCode {
 
 
         for (int i = 0; i < stream.length; i++) {
-            int y0 = getY0(stream, i);
-            int y1 = getY1(stream, i);
+            int a0 = getA0(stream, i);
+            int a1 = getA1(stream, i);
 
-            result[i][0] = y0;
-            result[i][1] = y1;
+            result[i][0] = a0;
+            result[i][1] = a1;
         }
 
         return result;
     }
+
+
 
     public String getOutputStream() {
         int[][] stream = getConvolutionalWord();
@@ -66,7 +68,7 @@ public class ConvolutionalCode {
 
     }
 
-    public int getY0(int[] stream, int index) {
+    public int getA0(int[] stream, int index) {
         int pos1 = stream[index];
         int pos2 = index > 1 ? stream[index - 2] : 0;
         int pos3 = index > 2 ? stream[index - 3] : 0;
@@ -74,7 +76,7 @@ public class ConvolutionalCode {
         return (pos1 + pos2 + pos3) % 2;
     }
 
-    public int getY1(int[] stream, int index) {
+    public int getA1(int[] stream, int index) {
         int pos1 = stream[index];
         int pos2 = index > 0 ? stream[index - 1] : 0;
         int pos3 = index > 2 ? stream[index - 3] : 0;

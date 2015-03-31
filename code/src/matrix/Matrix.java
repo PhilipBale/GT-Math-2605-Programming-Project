@@ -230,9 +230,9 @@ public class Matrix {
             double mod = result.data[srcRow][i] * modifier;
             result.data[destRow][i] += mod;
 
-            if (result.data[destRow][i] < 0.00000000001) {
+            /*if (result.data[destRow][i] < 0.00000000001) {
                 result.data[destRow][i] = 0;
-            }
+            }*/
         }
 
         return result;
@@ -282,6 +282,27 @@ public class Matrix {
             }
 
             result.data[j][0] = (b.data[j][0] - t) / A.data[j][j];
+        }
+
+        return result;
+    }
+
+    public Matrix getAugment() {
+        Matrix result = new Matrix(m, 1);
+        for (int i = 0; i < m; i++) {
+            result.data[i][0] = data[i][n - 1];
+        }
+
+        return result;
+    }
+
+    public Matrix removeAugment() {
+        Matrix result = new Matrix(m, n - 1);
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n - 1; j++) {
+                result.setData(i, j, data[i][j]);
+            }
         }
 
         return result;

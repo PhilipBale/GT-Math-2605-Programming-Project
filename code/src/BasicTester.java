@@ -26,6 +26,11 @@ public class BasicTester {
 
     }
 
+    @Before
+    public void newTest() {
+        System.out.println("New test");
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void wrongSizeMatrix() {
         aMatrix.isEqualTo(bMatrix);

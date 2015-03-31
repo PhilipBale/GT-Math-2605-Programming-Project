@@ -27,9 +27,9 @@ public class TwoMatrixResult {
     }
 
     public void printResult() {
-        System.out.println(getPrefix(resultType, true) + ": ");
+        System.out.print(getPrefix(resultType, true) + ": ");
         first.printMatrix();
-        System.out.println(getPrefix(resultType, false) + ": ");
+        System.out.print(getPrefix(resultType, false) + ": ");
         second.printMatrix();
         System.out.println("Error: " + error);
     }

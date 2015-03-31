@@ -6,8 +6,6 @@ package matrix;
 public class QRFactorization {
 
     public static TwoMatrixResult getQRGivens(Matrix input) {
-        input.printMatrix();
-
         TwoMatrixResult result = new TwoMatrixResult();
         result.setType(TwoMatrixResult.Type.QR_GIVENS);
 

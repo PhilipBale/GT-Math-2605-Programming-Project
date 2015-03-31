@@ -1,0 +1,169 @@
+import matrix.*;
+
+import java.util.Scanner;
+
+/**
+ * Created by Philip on 3/31/15.
+ */
+public class ProjectRunner {
+
+    private enum Target {
+
+        LU_SIMPLE("lu_fact", "LU Decomposition for one matrix", 1.1),
+        QR_HOUSE_SIMPLE("qr_fact_househ", "QR Factorization by householder for one matrix", 1.21),
+        QR_GIVENS_SIMPLE("qr_fact_givens", "QR Factorization by givens rotation for one matrix", 1.22),
+        LU_SOLVE("solve_lu_b", "Solves with b using LU for one matrix", 1.31),
+        QR_SOLVE("solve_qr_b", "Solves with b using QR for one matrix", 1.32),
+        SOLVE_HILBERT("solve_hilbert", "Solves n hilbert matrices using QR and LU", 1.4);
+
+        public String name;
+        public String desc;
+        public double rubricNum;
+
+        Target(String name, String desc, double rubricNum) {
+            this.name = name;
+            this.desc = desc;
+            this.rubricNum = rubricNum;
+        }
+    }
+
+    public static void main(String[] args) {
+        new ProjectRunner().run();
+    }
+
+    Scanner sc = new Scanner(System.in);
+
+    public void run() {
+        log("Welcome to our MATH 2605");
+
+        boolean running = true;
+
+        while (running) {
+            log("Please enter command number, command name, or -1 to exit");
+            if (!handleInput()) {
+                running = false;
+            }
+        }
+
+        log("Thank you for using me!");
+
+
+    }
+
+    public boolean handleInput() {
+        String input = sc.next();
+        if (input == "-1") {
+            return false;
+        }
+        Target target = getTarget(input);
+        if (target == null) {
+            log("No such target!");
+            return false;
+        }
+        String path;
+        Matrix inputMatrix;
+        Matrix solution;
+        int n;
+        TwoMatrixResult result;
+        log("Running Target: " + target.name);
+        log("Desc: " + target.desc);
+
+        switch (target) {
+            case LU_SIMPLE:
+                path = promptForMatrixPath();
+                inputMatrix = DotDatMatrixParser.parseMatrix(path);
+                result = LUDecomposition.getLUDecomposition(inputMatrix);
+                result.printResult();
+                break;
+            case QR_HOUSE_SIMPLE:
+                path = promptForMatrixPath();
+                inputMatrix = DotDatMatrixParser.parseMatrix(path);
+                result = QRFactorization.getQRHouseHolder(inputMatrix);
+                result.printResult();
+                break;
+            case QR_GIVENS_SIMPLE:
+                path = promptForMatrixPath();
+                inputMatrix = DotDatMatrixParser.parseMatrix(path);
+                result = QRFactorization.getQRGivens(inputMatrix);
+                result.printResult();
+                break;
+            case LU_SOLVE:
+                path = promptForAugmentedMatrixPath();
+                inputMatrix = DotDatMatrixParser.parseMatrix(path);
+                solution = inputMatrix.getAugment();
+                inputMatrix = inputMatrix.removeAugment();
+
+                solution = inputMatrix.solve(solution);
+                solution.printMatrix();
+
+                break;
+            case QR_SOLVE:
+                path = promptForAugmentedMatrixPath();
+                inputMatrix = DotDatMatrixParser.parseMatrix(path);
+                solution = inputMatrix.getAugment();
+                inputMatrix = inputMatrix.removeAugment();
+
+                solution = inputMatrix.solve(solution);
+                solution.printMatrix();
+
+                break;
+            case SOLVE_HILBERT:
+                log("What is your n?");
+                n = sc.nextInt();
+                for (int i = 2; i < n; i++) {
+                    log("Solving for n=" + i);
+                    inputMatrix = MatrixGenerator.HilbertsMatrix(i);
+                    double[] b = CustomMath.calculateWuchensB(inputMatrix.getN());
+                    solution = new Matrix(CustomMath.makeArray2d(b));
+                    solution = inputMatrix.solve(solution);
+                    solution.printMatrix();
+                    newLine();
+                }
+                break;
+
+            default:
+                log("No function for that number!");
+                break;
+        }
+
+        log("Command completed!");
+        newLine(3);
+
+        return true;
+    }
+
+    public String promptForMatrixPath() {
+        sc.reset();
+        log("Please enter your matrix path");
+        return sc.next();
+    }
+
+    public String promptForAugmentedMatrixPath() {
+        sc.reset();
+        log("Please enter your *augmented* matrix path");
+        return sc.next();
+    }
+
+    public void log(Object o) {
+        System.out.println(o);
+    }
+
+    public void newLine() {
+        log("");
+    }
+
+    public void newLine(int n) {
+        for (int i = 0; i < n; i++) {
+            log("");
+        }
+    }
+
+    public Target getTarget(String s) {
+        for (Target t: Target.values()) {
+            if (t.name.equals(s)) {
+                return t;
+            }
+        }
+        return null;
+    }
+}
