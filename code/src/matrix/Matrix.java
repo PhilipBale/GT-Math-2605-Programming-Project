@@ -129,7 +129,7 @@ public class Matrix {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < toMultiply.getN(); j++) {
                 for (int k = 0; k < n; k++) {
-                    c[i][j] += + data[i][k] * toMultiply.data[k][j];
+                    c[i][j] += +data[i][k] * toMultiply.data[k][j];
                 }
             }
         }
@@ -178,23 +178,15 @@ public class Matrix {
 
     public double norm1(Matrix a) {
         double largest = 0;
-        double smallest = 0;
-        double temp;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
+        for (int j = 0; j < a.n; j++) {
+            double smallest = 0;
+            for (int i = 0; i < a.m; i++) {
                 smallest += Math.abs(a.data[i][j]);
-                if (smallest > largest) {
-                    temp = smallest;
-                    smallest = largest;
-                    largest = temp;
-                }
-                smallest = 0;
             }
-
+            largest = Math.max(largest, smallest);
         }
         return largest;
     }
-
 
     public Matrix transpose() {
         Matrix result = new Matrix(n, m);

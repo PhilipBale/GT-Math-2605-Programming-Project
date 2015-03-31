@@ -63,7 +63,7 @@ public class ProjectRunner {
         Target target = getTarget(input);
         if (target == null) {
             log("No such target!");
-            return false;
+            return true;
         }
         String path;
         Matrix inputMatrix;

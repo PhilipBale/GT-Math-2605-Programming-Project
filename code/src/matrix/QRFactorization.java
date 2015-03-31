@@ -52,6 +52,7 @@ public class QRFactorization {
         result.setSecondMatrix(asubn); // r
 
         Matrix finalMatrix = q.multiply(asubn);
+        result.setError(q.error(asubn, input));
 
 
         return result;
@@ -61,7 +62,9 @@ public class QRFactorization {
         TwoMatrixResult result = new TwoMatrixResult();
         result.setType(TwoMatrixResult.Type.QR_HOUSE);
 
+
         input = new Matrix(input);
+        Matrix begin = new Matrix(input);
         int n = input.getN();
         Matrix asubn = new Matrix(input);
         Matrix identity = Matrix.identity(input.getN());
@@ -117,6 +120,7 @@ public class QRFactorization {
 
         result.setFirstMatrix(q);
         result.setSecondMatrix(r);
+        result.setError(q.error(r, begin));
 
         return result;
     }
