@@ -6,7 +6,6 @@ package matrix;
 public class QRFactorization {
 
     public static TwoMatrixResult getQRGivens(Matrix input) {
-        System.out.println("Input:");
         input.printMatrix();
 
         TwoMatrixResult result = new TwoMatrixResult();
@@ -14,7 +13,7 @@ public class QRFactorization {
 
 
         int n = input.getN();
-        Matrix answer = new Matrix(input);
+        Matrix asubn = new Matrix(input);
         Matrix identity = Matrix.identity(input.getN());
         Matrix givens = new Matrix(identity);
         Matrix q = new Matrix(identity);
@@ -29,8 +28,8 @@ public class QRFactorization {
         for (int i = 0; i < n; i++) {
             for (int j = (n - 1); j > i; j--) {
 
-                a = answer.getData(j - 1, i);
-                b = answer.getData(j, i);
+                a = asubn.getData(j - 1, i);
+                b = asubn.getData(j, i);
                 denom = Math.sqrt(a * a + b * b);
                 cosX = a / denom;
                 sinX = -b / denom;
@@ -41,22 +40,21 @@ public class QRFactorization {
                 givens.setData(j - 1, j, -sinX);
                 givens.setData(j - 1, j - 1, cosX);
 
-                answer = givens.multiply(answer);
+                asubn = givens.multiply(asubn);
                 q = givens.multiply(q);
 
                 givens = new Matrix(identity);
                 iterations++;
             }
         }
-        System.out.println("Q:");
-        q.printMatrix();
-        System.out.println("R:");
-        answer.printMatrix();
 
         q = q.transpose();
 
-        Matrix finalMatrix = q.multiply(answer);
-        finalMatrix.printMatrix();
+        result.setFirstMatrix(q); // q
+        result.setSecondMatrix(asubn); // r
+
+        Matrix finalMatrix = q.multiply(asubn);
+
 
         return result;
     }

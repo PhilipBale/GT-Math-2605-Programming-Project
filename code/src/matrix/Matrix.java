@@ -192,7 +192,7 @@ public class Matrix {
         return result;
     }
 
-    public void printMatrix() {
+    public synchronized void printMatrix() {
         String line = "{{ ";
         DecimalFormat df = new DecimalFormat("#.#########");
         String formatted;

@@ -56,6 +56,7 @@ public class BasicTester {
     @Test
     public void givensQR() {
         TwoMatrixResult result = QRFactorization.getQRGivens(hMatrix);
+        result.printResult();
         assert(true);
     }
 }
