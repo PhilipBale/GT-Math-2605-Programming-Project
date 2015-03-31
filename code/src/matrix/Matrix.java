@@ -203,6 +203,55 @@ public class Matrix {
         return result;
     }
 
+    public void swapRow(int first, int second) {
+        double[] temp = data[first];
+        data[first] = data[second];
+        data[second] = temp;
+    }
+
+    public Matrix solve(Matrix solution) {
+        Matrix result = new Matrix(n, 1);
+        Matrix A = new Matrix(this);
+        Matrix b = new Matrix(solution);
+
+        for (int i = 0; i < n; i++) {
+            int max = i;
+            for (int j = i + 1; j < n; j++) {
+                if (Math.abs(A.data[j][i]) > Math.abs(A.data[max][i])) {
+                    max = j;
+                }
+            }
+
+            A.swapRow(i, max);
+            b.swapRow(i, max);
+
+            // pivot b
+            for (int j = i + 1; j < n; j++) {
+                b.data[j][0] -= b.data[i][0] * A.data[j][i] / A.data[i][i];
+            }
+
+            // pivot a
+            for (int j = i + 1; j < n; j++) {
+                for (int k = i + 1; k < n; k++) {
+                    A.data[j][k] -= A.data[i][k] * A.data[j][i] / A.data[i][i];
+                }
+
+                A.data[j][i] = 0.0;
+            }
+        }
+
+        for (int j = n - 1; j >= 0; j--) {
+            double t = 0.0;
+            for (int k = j + 1; k < n; k++) {
+                t += A.data[j][k] * result.data[k][0];
+            }
+
+            result.data[j][0] = (b.data[j][0] - t) / A.data[j][j];
+        }
+
+        return result;
+    }
+
     public synchronized void printMatrix() {
         String line = "{{ ";
         DecimalFormat df = new DecimalFormat("#.#########");

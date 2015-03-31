@@ -67,4 +67,27 @@ public class BasicTester {
         result.getFirstMatrix().multiply(result.getSecondMatrix()).printMatrix();
         assert(true);
     }
+
+    @Test
+    public void wuchensB() {
+        double wuchenB = CustomMath.calculateWuchensB(4)[0];
+        assert(wuchenB == 0.0464158883361278);
+    }
+
+    @Test
+    public void solveQR() {
+        double[] wuchenB = CustomMath.calculateWuchensB(hMatrix.getM());
+        Matrix wuchenMatrix = new Matrix(CustomMath.makeArray2d(wuchenB));
+        Matrix result = hMatrix.solve(wuchenMatrix);
+        System.out.println();
+        assert(true);
+    }
+
+    @Test
+    public void testConvolutional() {
+        int[] tester = new int[] {1, 0, 1, 1, 0};
+        String result = new ConvolutionalCode(tester).getOutputStream();
+        System.out.println("hey");
+        assert(true);
+    }
 }

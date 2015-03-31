@@ -44,4 +44,15 @@ public class CustomMath {
 
         return result;
     }
+
+    public static double[] calculateWuchensB(int n) {
+        double baseB = Math.pow(0.1, (double) n / 3);
+        double[] result = new double[n];
+        for (int i = 0; i < n; i++) {
+            result[i] = baseB;
+        }
+
+        return result;
+    }
+
 }
