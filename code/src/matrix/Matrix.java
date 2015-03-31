@@ -122,6 +122,17 @@ public class Matrix {
         return new Matrix(c);
     }
 
+    public Matrix scale(double scalar) {
+        Matrix result = new Matrix(this);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                result.data[i][j] *= scalar;
+            }
+        }
+
+        return result;
+    }
+
 
     public double error(Matrix comparable, Matrix target) {
         Matrix multi = this.multiply(comparable);

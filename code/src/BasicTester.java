@@ -59,4 +59,12 @@ public class BasicTester {
         result.printResult();
         assert(true);
     }
+
+    @Test
+    public void householderQR() {
+        TwoMatrixResult result = QRFactorization.getQRHouseHolder(hMatrix);
+        result.printResult();
+        result.getFirstMatrix().multiply(result.getSecondMatrix()).printMatrix();
+        assert(true);
+    }
 }
