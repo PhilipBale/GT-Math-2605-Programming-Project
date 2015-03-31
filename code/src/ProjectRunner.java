@@ -14,7 +14,12 @@ public class ProjectRunner {
         QR_GIVENS_SIMPLE("qr_fact_givens", "QR Factorization by givens rotation for one matrix", 1.22),
         LU_SOLVE("solve_lu_b", "Solves with b using LU for one matrix", 1.31),
         QR_SOLVE("solve_qr_b", "Solves with b using QR for one matrix", 1.32),
-        SOLVE_HILBERT("solve_hilbert", "Solves n hilbert matrices using QR and LU", 1.4);
+        SOLVE_HILBERT("solve_hilbert", "Solves n hilbert matrices using QR and LU", 1.4),
+        CONVOLUTION("convolutional_codes", "Generates random binary input stream, A0 and A1 matrices, and encoded word", 2.1),
+        JACOBI("jacobi", "Jacobi iteration for a matrix", 2.21),
+        GAUSS_SEIDEL("gauss_seidel", "Gauss seidel for a matrix", 2.22),
+        DECODE("decode", "Decoees a given input binary stream", 2.3),
+        POWER_METHOD("power_method", "Power method to find largest eigenvalue", 3.1);
 
         public String name;
         public String desc;
@@ -119,6 +124,16 @@ public class ProjectRunner {
                     solution.printMatrix();
                     newLine();
                 }
+                break;
+            case CONVOLUTION:
+                break;
+            case JACOBI:
+                break;
+            case GAUSS_SEIDEL:
+                break;
+            case DECODE:
+                break;
+            case POWER_METHOD:
                 break;
 
             default:
