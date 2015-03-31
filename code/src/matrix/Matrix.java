@@ -18,7 +18,7 @@ public class Matrix {
     }
 
     public Matrix(int n) {
-        this(n,n);
+        this(n, n);
     }
 
     public Matrix(double[][] data) {
@@ -28,7 +28,17 @@ public class Matrix {
     }
 
     public Matrix(Matrix toCopy) {
-        this(toCopy.data.clone());
+        this.m = toCopy.getM();
+        this.n = toCopy.getN();
+        double[][] data = new double[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                data[i][j] = toCopy.data[i][j];
+            }
+        }
+
+        this.data = data;
+
     }
 
     public int getM() {
@@ -65,7 +75,7 @@ public class Matrix {
     }
 
     public Matrix plus(Matrix toAdd) {
-        if ((m != toAdd.m)|| (n != toAdd.n)) {
+        if ((m != toAdd.m) || (n != toAdd.n)) {
             throw new IllegalArgumentException("Matrix sizes don't match");
         }
 
@@ -80,7 +90,7 @@ public class Matrix {
     }
 
     public Matrix subtract(Matrix toSubtract) {
-        if ((m != toSubtract.m)|| (n != toSubtract.n)) {
+        if ((m != toSubtract.m) || (n != toSubtract.n)) {
             throw new IllegalArgumentException("Matrix sizes don't match");
         }
 
@@ -95,18 +105,21 @@ public class Matrix {
     }
 
     public Matrix multiply(Matrix toMultiply) {
-        if ((m != toMultiply.m)|| (n != toMultiply.n)) {
-            throw new IllegalArgumentException("Matrix sizes don't match");
+        if (m != toMultiply.getN()) {
+            throw new IllegalArgumentException("Matrix multiplication is impossible");
         }
 
-        Matrix result = new Matrix(m, n);
+        double[][] c = new double[m][toMultiply.getN()];
         for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                result.data[i][j] *= toMultiply.data[i][j];
+            for (int j = 0; j < toMultiply.getN(); j++) {
+                for (int k = 0; k < n; k++) {
+                    c[i][j] = c[i][j] + data[i][k] * toMultiply.data[k][j];
+                }
             }
         }
 
-        return result;
+
+        return new Matrix(c);
     }
 
 
@@ -117,16 +130,23 @@ public class Matrix {
         return norm1(multi);
     }
 
-    public double norm1 (Matrix a) {
-        double f = 0;
-        for (int j = 0; j < n; j++) {
-            double s = 0;
-            for (int i = 0; i < m; i++) {
-                s += Math.abs(a.data[i][j]) * Math.abs(a.data[i][j]);
+    public double norm1(Matrix a) {
+        double largest = 0;
+        double smallest = 0;
+        double temp;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                smallest += Math.abs(a.data[i][j]);
+                if (smallest > largest) {
+                    temp = smallest;
+                    smallest = largest;
+                    largest = temp;
+                }
+                smallest = 0;
             }
-            f = Math.pow(f,.5);
+
         }
-        return f;
+        return largest;
     }
 
 
@@ -142,7 +162,7 @@ public class Matrix {
     }
 
     public boolean isEqualTo(Matrix toCompare) {
-        if ((m != toCompare.m)|| (n != toCompare.n)) {
+        if ((m != toCompare.m) || (n != toCompare.n)) {
             throw new IllegalArgumentException("Matrix sizes don't match");
         }
 

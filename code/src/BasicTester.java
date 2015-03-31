@@ -47,10 +47,15 @@ public class BasicTester {
 
     @Test
     public void hilbertLU() {
-        hMatrix.printMatrix();
         TwoMatrixResult result = LUDecomposition.getLUDecomposition(hMatrix);
         result.printResult();
 
+        assert(true);
+    }
+
+    @Test
+    public void givensQR() {
+        TwoMatrixResult result = QRFactorization.getQRGivens(hMatrix);
         assert(true);
     }
 }

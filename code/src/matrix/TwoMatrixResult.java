@@ -12,7 +12,7 @@ public class TwoMatrixResult {
     private Type resultType;
 
     public enum Type {
-        LU, QR;
+        LU, QR_HOUSE, QR_GIVENS;
     }
 
     public TwoMatrixResult() {
@@ -38,7 +38,8 @@ public class TwoMatrixResult {
         switch (type) {
             case LU:
                 return first ? "L" : "U";
-            case QR:
+            case QR_HOUSE:
+            case QR_GIVENS:
                 return first ? "Q" : "R";
             default:
                 return "None";
