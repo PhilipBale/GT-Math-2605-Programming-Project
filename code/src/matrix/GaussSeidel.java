@@ -1,11 +1,11 @@
 package matrix;
 
 /**
- * Created by Jackie on 3/30/15.
+ * Created by Jaclynjoyce on 3/31/15.
  */
-public class Jacobi {
+public class GaussSeidel {
 
-    public boolean wuchenIsDominate(Matrix original, int r, boolean [] iftrue, int[] x) {
+    public boolean GSDOminate(Matrix original, int r, boolean [] iftrue, int[] x) {
         int m = original.getM();
         if (r == m) {
             Matrix newOrg = new Matrix(m, m +1);
@@ -24,7 +24,7 @@ public class Jacobi {
                     if (2 * Math.abs(original.getData(i, r)) > value) {
                         iftrue[i] = true;
                         x[r] = i;
-                        if (wuchenIsDominate(original, r + 1, iftrue, x)) {
+                        if (GSDOminate(original, r + 1, iftrue, x)) {
                             return true;
                         }
                     }
@@ -40,10 +40,10 @@ public class Jacobi {
         for (int i = 0; i < original.getM(); i++) {
             looked[i] = false;
         }
-        return wuchenIsDominate(original, 0, looked, r);
+        return GSDOminate(original, 0, looked, r);
     }
 
-    public double getJacobi(Matrix a, double[] y, double[] guess, double tol) {
+    public double getGuass(Matrix a, double[] y, double[] guess, double tol) {
         int iterations = 0;
         final int maxIterations = 100;
         int m = a.getM();
@@ -55,13 +55,12 @@ public class Jacobi {
         for (int i = 0; i < y.length; i++) {
             y[i] = 0;
         }
-
         while (true) {
             for (int i = 1; i < m; i++) {
                 double sum = a.getData(i, m);
-                for (int j = 0; j < n; j++) {
+                for (int j = 0; j < m; j++) {
                     if (j != i) {
-                        sum -= a.getData(i,j) * guess[i];
+                        sum -= a.getData(i,j) * y[i];
                     }
                     guess[i] = 1 / a.getData(i, i) * sum;
                 }
@@ -74,7 +73,7 @@ public class Jacobi {
                 stop = false;
             }
             if (stop || iterations == maxIterations) {
-                System.out.println("The jacobi method does not converge");
+                System.out.println("The Gauss Seidel method does not converge");
                 break;
             }
         }
