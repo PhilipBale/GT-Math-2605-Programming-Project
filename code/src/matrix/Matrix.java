@@ -144,6 +144,15 @@ public class Matrix {
         return result;
     }
 
+    public double[] parseVector(int col) {
+        double[] vect = new double[m];
+        for (int i = 0; i < m; i++) {
+            vect[i] = data[i][col];
+        }
+
+        return vect;
+    }
+
 
     public double error(Matrix comparable, Matrix target) {
         Matrix multi = this.multiply(comparable);

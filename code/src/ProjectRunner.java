@@ -169,6 +169,16 @@ public class ProjectRunner {
                 }
                 break;
             case CONVOLUTION:
+                log("How many random binary strings to create?");
+                n = sc.nextInt();
+                ConvolutionalCode code;
+                for (int i = 0; i < n; i++) {
+                    code = new ConvolutionalCode(8);
+                    log("Binary input stream: "  + code.getBinaryStream());
+                    log("Binary output stream: " + code.getOutputStream());
+                    newLine();
+                }
+
                 break;
             case JACOBI:
                 break;
@@ -177,6 +187,15 @@ public class ProjectRunner {
             case DECODE:
                 break;
             case POWER_METHOD:
+                path = promptForAugmentedMatrixPath();
+                inputMatrix = DotDatMatrixParser.parseMatrix(path);
+                solution = inputMatrix.getAugment();
+                inputMatrix = inputMatrix.removeAugment();
+
+                log("What is your tolerance?");
+                double tol = sc.nextDouble();
+                solution = PowerMethod.runPowerMethod(inputMatrix, tol, solution.parseVector(0));
+
                 break;
 
             default:

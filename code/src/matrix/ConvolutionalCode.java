@@ -51,17 +51,28 @@ public class ConvolutionalCode {
         return result;
     }
 
-
-
-    public String getOutputStream() {
-        int[][] stream = getConvolutionalWord();
+    public String getBinaryStream() {
         String output = "(";
-
         for (int i = 0; i < stream.length; i++) {
             if (i > 0) {
                 output += ",";
             }
-            output += stream[i][0] + "" + stream[i][1];
+            output += stream[i];
+        }
+
+        return output + ")";
+    }
+
+
+    public String getOutputStream() {
+        int[][] word = getConvolutionalWord();
+        String output = "(";
+
+        for (int i = 0; i < word.length; i++) {
+            if (i > 0) {
+                output += ",";
+            }
+            output += word[i][0] + "" + word[i][1];
         }
 
         return output + ")";
