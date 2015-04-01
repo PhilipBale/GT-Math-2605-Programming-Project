@@ -10,7 +10,8 @@ public class PowerMethod {
         input.printMatrix();
 
         Matrix result = new Matrix(input.getN(), 1);
-        Matrix approx = new Matrix(approximation, true);
+        Matrix approx = new Matrix(CustomMath.makeArray2d(approximation));
+
 
         boolean converges = true;
         double lastEigenVal = 0;
@@ -21,16 +22,17 @@ public class PowerMethod {
 
         for (int i = 0; converges && (err >= errorTol || i == 0); i++) {
             lastEigenVal = approx.getData(0, 0);
-            approx = input.multiplyVect(approx);
+            approx = input.multiply(approx);
 
             if (err >= errorTol || i == 0) {
                 approx = approx.scale(1 / lastEigenVal);
             }
 
             curEigenVal = approx.getData(0, 0);
+
             err = Math.abs(lastEigenVal - curEigenVal);
 
-            converges = (curEigenVal / lastEigenVal != 1 || i == 0);
+            converges = (i == 0 || curEigenVal / lastEigenVal != 1);
 
             iterations++;
 
@@ -39,12 +41,15 @@ public class PowerMethod {
             }
         }
 
+
         System.out.println("Approximated eigenvalue: " + curEigenVal);
         System.out.println("Iterations: " + iterations);
+        System.out.println("Approximated Eigenvector: ");
+        approx.printMatrix();
 
 
 
-        return approx.transpose();
+        return approx;
     }
 
 }

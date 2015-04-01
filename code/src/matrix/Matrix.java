@@ -133,26 +133,6 @@ public class Matrix {
         return new Matrix(c);
     }
 
-    public Matrix multiplyVect(Matrix input) {
-        return multiplyVect(input.transpose().data[0]);
-    }
-
-    public Matrix multiplyVect(double[] vec) {
-        if (n != vec.length) {
-            throw new IllegalArgumentException("Matrix multiplication is impossible");
-        }
-        double[] result = new double[vec.length];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                result[i] += data[j][i] * vec[j];
-            }
-        }
-
-        Matrix resultMatrix = new Matrix(result, true);
-
-        return resultMatrix;
-    }
-
     public Matrix scale(double scalar) {
         Matrix result = new Matrix(this);
         for (int i = 0; i < m; i++) {
