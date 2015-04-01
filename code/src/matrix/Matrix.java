@@ -121,10 +121,6 @@ public class Matrix {
             throw new IllegalArgumentException("Matrix multiplication is impossible");
         }
 
-        if (n == 9 || m == 9) {
-            System.out.println("Hey");
-        }
-
         double[][] c = new double[m][toMultiply.getN()];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < toMultiply.getN(); j++) {

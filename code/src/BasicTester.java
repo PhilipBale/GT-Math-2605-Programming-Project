@@ -95,7 +95,6 @@ public class BasicTester {
     public void testConvolutional() {
         int[] tester = new int[] {1, 0, 1, 1, 0};
         String result = new ConvolutionalCode(tester).getOutputStream();
-        System.out.println("hey");
         assert(true);
     }
 
@@ -105,6 +104,7 @@ public class BasicTester {
         sampleApprox = CustomMath.scaleArray(sampleApprox, Math.pow(10, 5));
         double acc = 0.00000001;
         Matrix result = PowerMethod.runPowerMethod(lMatrix, acc, sampleApprox);
+        acc = 0;
         assert(true);
     }
 }

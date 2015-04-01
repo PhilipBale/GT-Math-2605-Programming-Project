@@ -68,6 +68,10 @@ public class ProjectRunner {
         String path;
         Matrix inputMatrix;
         Matrix solution;
+        Matrix resultMatrix;
+        Matrix qTb;
+        Matrix x;
+        Matrix y;
         int n;
         TwoMatrixResult result;
         log("Running Target: " + target.name);
@@ -98,8 +102,12 @@ public class ProjectRunner {
                 solution = inputMatrix.getAugment();
                 inputMatrix = inputMatrix.removeAugment();
 
-                solution = inputMatrix.solve(solution);
-                solution.printMatrix();
+                result = LUDecomposition.getLUDecomposition(inputMatrix);
+                y = result.getFirstMatrix().solve(solution);
+                resultMatrix = result.getSecondMatrix().solve(y);
+                log("LU solution: ");
+                resultMatrix.printMatrix();
+                log("LU error: " + result.getError());
 
                 break;
             case QR_SOLVE:
@@ -107,6 +115,19 @@ public class ProjectRunner {
                 inputMatrix = DotDatMatrixParser.parseMatrix(path);
                 solution = inputMatrix.getAugment();
                 inputMatrix = inputMatrix.removeAugment();
+                result = QRFactorization.getQRGivens(inputMatrix);
+                qTb = result.getFirstMatrix().transpose().multiply(solution);
+                x = result.getSecondMatrix().solve(qTb);
+                log("Givens Solution:");
+                x.printMatrix();
+                log("Givens error: " + result.getError());
+
+                result = QRFactorization.getQRHouseHolder(inputMatrix);
+                qTb = result.getFirstMatrix().transpose().multiply(solution);
+                x = result.getSecondMatrix().solve(qTb);
+                log("Householder solution:");
+                x.printMatrix();
+                log("Householder error: " + result.getError());
 
                 solution = inputMatrix.solve(solution);
                 solution.printMatrix();
@@ -120,9 +141,31 @@ public class ProjectRunner {
                     inputMatrix = MatrixGenerator.HilbertsMatrix(i);
                     double[] b = CustomMath.calculateWuchensB(inputMatrix.getN());
                     solution = new Matrix(CustomMath.makeArray2d(b));
-                    solution = inputMatrix.solve(solution);
-                    solution.printMatrix();
-                    newLine();
+
+                    result = QRFactorization.getQRGivens(inputMatrix);
+                    qTb = result.getFirstMatrix().transpose().multiply(solution);
+                    x = result.getSecondMatrix().solve(qTb);
+                    log("Givens Solution:");
+                    x.printMatrix();
+                    log("Givens error: " + result.getError());
+                    newLine(2);
+
+                    result = QRFactorization.getQRHouseHolder(inputMatrix);
+                    qTb = result.getFirstMatrix().transpose().multiply(solution);
+                    x = result.getSecondMatrix().solve(qTb);
+                    log("Householder solution:");
+                    x.printMatrix();
+                    log("Householder error: " + result.getError());
+                    newLine(2);
+
+                    result = LUDecomposition.getLUDecomposition(inputMatrix);
+                    y = result.getFirstMatrix().solve(solution);
+                    resultMatrix = result.getSecondMatrix().solve(y);
+                    log("LU solution: ");
+                    resultMatrix.printMatrix();
+                    log("LU error: " + result.getError());
+                    newLine(2);
+
                 }
                 break;
             case CONVOLUTION:
